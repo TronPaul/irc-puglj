@@ -6,4 +6,14 @@
 
 (deftest add-test
   (testing "Add command adds player to state"
-    (is (= [nil {:game nil :lobby {:captains [] :pool {:scout #{"name"}}}}] (privmsg-in-channel base-state nick "!add scout")))))
+    (is (= [nil {:game nil :lobby {:captains #{} :pool {:scout #{nick}}}}]
+          (privmsg-in-channel base-state nick "!add scout")))))
+
+(deftest add-captain-test
+  (testing "Add command lets players add as captain"
+    (is (= [nil {:game nil :lobby {:captains #{nick} :pool {:scout #{nick}}}}]
+          (privmsg-in-channel base-state nick "!add scout captain")))))
+
+(deftest add-captain-without-class-test
+  (testing "Cannot add as only a captain"
+    (is (thrown? AssertionError (privmsg-in-channel base-state nick "!add captain")))))
