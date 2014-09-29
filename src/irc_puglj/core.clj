@@ -22,7 +22,7 @@
             [nil (update-in (do-add state nick (disj args-kw-set :captain)) [:lobby :captains] conj nick)])
           [nil (do-add state nick args-kw-set)]))
       "!remove"
-      [nil state]
+      [nil (update-in state [:lobby :pool] lobby/remove-player nick)]
       "!need"
       [nil state]
       "!list"
